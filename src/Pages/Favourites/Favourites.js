@@ -1,16 +1,44 @@
-import React from "react";
+import { React, useState } from "react";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import "./Favourites.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css"; // Ensure you've installed this
 import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const Favourites = () => {
+  const [Favorite, setFavorite] = useState(false);
   const naviagte = useNavigate();
   const pages = [
-    { item: "Kesariya", link: "/ForYou" },
-    { item: "Pani Da Rang", link: "" },
-    { item: "Khwaja", link: "" },
-    { item: "Blue Eyes", link: "" },
+    {
+      item: "Kesariya",
+      link: "/ForYou",
+      icons: <FavoriteIcon />,
+      Unfavourite: <FavoriteBorderRoundedIcon />,
+    },
+    {
+      item: "Pani Da Rang",
+      link: "",
+      icons: <FavoriteIcon />,
+      Unfavourite: <FavoriteBorderRoundedIcon />,
+    },
+    {
+      item: "Khwaja",
+      link: "",
+      icons: <FavoriteIcon />,
+      Unfavourite: <FavoriteBorderRoundedIcon />,
+    },
+    {
+      item: "Blue Eyes",
+      link: "",
+      icons: <FavoriteIcon />,
+      Unfavourite: <FavoriteBorderRoundedIcon />,
+    },
   ];
+
+  const handleChange = () => {
+    setFavorite(!Favorite);
+  };
 
   const handlenavigation = (link) => {
     console.log(link);
@@ -19,7 +47,7 @@ const Favourites = () => {
   return (
     <div className="sidebar">
       <div className="logo">
-        <h4>Your Favourite Tracks</h4>
+        <h4>Favourite Tracks</h4>
       </div>
 
       {/* Sidebar links */}
@@ -27,7 +55,40 @@ const Favourites = () => {
         <ul>
           {pages.map((page, index) => (
             <li onClick={() => handlenavigation(page.link)} key={index}>
-              {page.item}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <span style={{ color: "white" }}>{page.item}</span>
+                {!Favorite ? (
+                  <Button
+                    value={Favorite}
+                    onClick={handleChange}
+                    style={{
+                      color: "red",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                  >
+                    {page.icons}
+                  </Button>
+                ) : (
+                  <Button
+                    value={Favorite}
+                    onClick={handleChange}
+                    style={{
+                      color: "red",
+                      backgroundColor: "transparent",
+                      border: "none",
+                    }}
+                  >
+                    {page.Unfavourite}
+                  </Button>
+                )}
+              </div>
             </li>
           ))}
         </ul>
