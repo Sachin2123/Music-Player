@@ -5,7 +5,7 @@
 
   .input-container {
     position: relative;
-    width: 90%; /* You can adjust the width */
+    width: 100%; /* You can adjust the width */
   }
 
   input {
@@ -20,7 +20,7 @@
 
   .search-icon {
     position: absolute;
-    right: -28px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     color: #ccc;

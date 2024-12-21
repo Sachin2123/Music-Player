@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import ColorThief from "colorthief";
+import { React, useEffect, useState } from "react";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
@@ -8,24 +9,114 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import PauseCircleIcon from "@mui/icons-material/PauseCircle";
 import { Volume2, CircleEllipsis } from "lucide-react";
 import Slider from "@mui/material/Slider";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Popover, OverlayTrigger } from "react-bootstrap";
 import "./Player.scss";
+import data from "../../assets/dumyyData.json";
 
 const Player = ({ currentSong }) => {
   const [click, setClick] = useState(PlayCircleIcon);
   const [position, setPosition] = useState(false);
+  const [bgColor, setBgColor] = useState(""); // Default color
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favpopoverVisible, setFavPopoverVisible] = useState(false);
+
+  const handleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
+
+  useEffect(() => {
+    if (!currentSong?.cover) return; // Ensure the cover URL is available
+
+    const img = new Image();
+    img.src = currentSong.cover; // Use the cover image URL
+    img.crossOrigin = "Anonymous"; // Required to avoid CORS issues
+
+    img.onload = () => {
+      try {
+        const colorThief = new ColorThief();
+        const [r, g, b] = colorThief.getColor(img); // Get dominant color
+
+        console.log("Dominant Color:", r, g, b); // Log the dominant color for debugging
+
+        // Generate a gradient based on the dominant color
+        const generateGradient = (r, g, b) => {
+          const complementR = 255 - r;
+          const complementG = 255 - g;
+          const complementB = 255 - b;
+
+          const lightenColor = (r, g, b) => {
+            const factor = 0.3; // Adjust this factor to get lighter or deeper colors
+            return [
+              Math.min(255, r + (255 - r) * factor),
+              Math.min(255, g + (255 - g) * factor),
+              Math.min(255, b + (255 - b) * factor),
+            ];
+          };
+
+          const [lightR, lightG, lightB] = lightenColor(r, g, b);
+          const gradientStart = `rgb(${lightR}, ${lightG}, ${lightB})`;
+          const gradientEnd = `rgb(${complementR}, ${complementG}, ${complementB})`;
+
+          return `linear-gradient(to right, ${gradientStart}, ${gradientEnd})`;
+        };
+
+        const gradientColor = generateGradient(r, g, b);
+        console.log("Generated Gradient:", gradientColor); // Log the gradient for debugging
+        setBgColor(gradientColor); // Set the gradient background
+      } catch (error) {
+        console.error("Error generating gradient:", error);
+      }
+    };
+
+    img.onerror = () => {
+      console.error("Error loading image");
+    };
+  }, [currentSong?.cover]);
 
   const handlePlayPause = (event) => {
     console.log("clicked");
     setClick(!click);
   };
+
+  const popover = (
+    <Popover id="popover-basic">
+      <Popover.Body
+        style={{
+          backgroundColor: "white",
+          borderRadius: "10px",
+          padding: "8px",
+          color: "black",
+        }}
+      >
+        <Button onClick={handleFavorite}>
+          {isFavorite ? (
+            <FavoriteIcon sx={{ color: "red" }} />
+          ) : (
+            <FavoriteBorderRoundedIcon sx={{ color: "black" }} />
+          )}
+          {isFavorite ? (
+            <span style={{ marginLeft: "10px", color: "black" }}>
+              Unmark as Favorite{" "}
+            </span>
+          ) : (
+            <span style={{ marginLeft: "10px", color: "black" }}>
+              Mark as Favorite
+            </span>
+          )}
+        </Button>
+      </Popover.Body>
+    </Popover>
+  );
+
   return (
-    <div className="player">
+    <div className="player" style={{ backgroundColor: bgColor }}>
       {currentSong ? (
         <>
           <div className="player-info">
             <div className="details">
               <h4>{currentSong.title}</h4>
-              <p>{currentSong.artist}</p>
+              <p style={{ color: "black" }}>{currentSong.artist}</p>
             </div>
             <img
               style={{ marginTop: "40px" }}
@@ -33,13 +124,16 @@ const Player = ({ currentSong }) => {
               src={currentSong.cover}
               alt={currentSong.title}
             />
+
+            {/* Popover Button with Circle Ellipsis */}
+
             <Slider
               aria-label="time-indicator"
               size="small"
               // value={position}
               min={0}
               step={1}
-              // max={duration}
+              // max={currentSong.duration}
               onChange={(_, value) => setPosition(value)}
               sx={(t) => ({
                 marginTop: "10px",
@@ -71,40 +165,50 @@ const Player = ({ currentSong }) => {
                 }),
               })}
             />
+
             <div className="controls">
-              <Button>
-                <CircleEllipsis color="white" backgroundColor="#36454F" />
-              </Button>
+              <OverlayTrigger
+                trigger="click"
+                placement="left"
+                overlay={popover}
+                show={favpopoverVisible}
+                onToggle={() => setFavPopoverVisible(!favpopoverVisible)}
+              >
+                <Button style={{ color: "white" }} variant="link">
+                  <CircleEllipsis color="white" backgroundColor="#36454F" />
+                </Button>
+              </OverlayTrigger>
+
               <div>
-                <Button>
+                <Button style={{ color: "white" }}>
                   <FastRewindIcon sx={{ color: "grey", fontSize: "30px" }} />
                 </Button>
 
                 {!click ? (
-                  <Button onClick={handlePlayPause}>
+                  <Button onClick={handlePlayPause} style={{ color: "white" }}>
                     <PlayCircleIcon sx={{ color: "white", fontSize: "40px" }} />
                   </Button>
                 ) : (
-                  <Button onClick={handlePlayPause}>
+                  <Button onClick={handlePlayPause} style={{ color: "white" }}>
                     <PauseCircleIcon
                       sx={{ color: "white", fontSize: "40px" }}
                     />
                   </Button>
                 )}
 
-                <Button>
+                <Button style={{ color: "white" }}>
                   <FastForwardIcon sx={{ color: "grey", fontSize: "30px" }} />
                 </Button>
               </div>
 
-              <Button>
+              <Button style={{ color: "white" }}>
                 <Volume2 color="white" backgroundColor="#36454F" />
               </Button>
             </div>
           </div>
         </>
       ) : (
-        <p>Select a song to play</p>
+        <div>Select a Song</div>
       )}
     </div>
   );

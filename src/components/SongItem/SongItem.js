@@ -1,4 +1,4 @@
-import React from "react";
+import { React } from "react";
 import "./SongItem.scss";
 
 const SongItem = ({ song, setCurrentSong }) => {

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import "./Header.scss";
 
 const Header = () => {
   const [search, setSearch] = useState("");
+
+
   const HandleChange = (e) => {
     // console.log(e.target.value);
     setSearch(e.target.value);

@@ -1,30 +1,25 @@
 import React from "react";
-import "./Sidebar.scss";
+import "./Favourites.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css"; // Ensure you've installed this
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = () => {
+const Favourites = () => {
   const naviagte = useNavigate();
   const pages = [
-    { item: "For You", link: "" },
-    { item: "Top Tracks", link: "" },
-    { item: "Favourites", link: "/Favourites" },
-    { item: "Recently Played", link: "" },
+    { item: "Kesariya", link: "/ForYou" },
+    { item: "Pani Da Rang", link: "" },
+    { item: "Khwaja", link: "" },
+    { item: "Blue Eyes", link: "" },
   ];
 
   const handlenavigation = (link) => {
     console.log(link);
-    naviagte(link === "/Favourites" ? "/Favourites" : "");
+    naviagte(link === "/ForYou" ? "/ForYou" : "");
   };
   return (
     <div className="sidebar">
       <div className="logo">
-        <i
-          className="fab fa-spotify icon"
-          style={{ fontSize: "40px", color: "#1db954" }}
-        ></i>
-
-        <h4>Spotify</h4>
+        <h4>Your Favourite Tracks</h4>
       </div>
 
       {/* Sidebar links */}
@@ -41,4 +36,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Favourites;
