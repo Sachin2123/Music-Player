@@ -1,5 +1,5 @@
 import ColorThief from "colorthief";
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useRef } from "react";
 import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import Button from "@mui/material/Button";
@@ -12,7 +12,6 @@ import Slider from "@mui/material/Slider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 import "./Player.scss";
-import data from "../../assets/dumyyData.json";
 
 const Player = ({ currentSong }) => {
   const [click, setClick] = useState(PlayCircleIcon);
@@ -21,6 +20,18 @@ const Player = ({ currentSong }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [favpopoverVisible, setFavPopoverVisible] = useState(false);
 
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (currentSong && audioRef.current) {
+      // Check if the audio element is ready and play the song
+      audioRef.current.src = currentSong.audio; // Set the audio source
+      audioRef.current.play().catch((error) => {
+        // Handle any errors (like if autoplay is blocked in the browser)
+        console.log("Error playing audio:", error);
+      });
+    }
+  }, [currentSong]);
   const handleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
@@ -124,6 +135,7 @@ const Player = ({ currentSong }) => {
               src={currentSong.cover}
               alt={currentSong.title}
             />
+            <audioref ref={audioRef} controls />
 
             {/* Popover Button with Circle Ellipsis */}
 

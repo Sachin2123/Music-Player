@@ -5,17 +5,32 @@ import data from "../../assets/dumyyData.json";
 
 const SongList = ({ setCurrentSong, searchQuery }) => {
   const [songs, setSongs] = useState([]);
+  const [debounce, setDebounce] = useState(searchQuery);
+  const [filteredSongs, setFilteredSongs] = useState([]);
 
   useEffect(() => {
     setSongs(data); // Simulate API call
   }, []);
 
-  const filteredSongs = songs.filter(
-    (song) =>
-      song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      song.artist.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      song.duration.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebounce(searchQuery);
+    }, 1000);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const results = songs.filter(
+      (song) =>
+        song.title.toLowerCase().includes(debounce.toLowerCase()) ||
+        song.artist.toLowerCase().includes(debounce.toLowerCase()) ||
+        song.duration.toLowerCase().includes(debounce.toLowerCase())
+    );
+    setFilteredSongs(results);
+  }, [debounce, songs]);
 
   return (
     <div className="song-list">
