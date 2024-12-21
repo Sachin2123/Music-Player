@@ -1,6 +1,6 @@
 .player {
   background: #121212;
-  padding: 10rem;
+  padding: 15rem;
   display: flex;
   align-items: center;
 
@@ -10,7 +10,7 @@
   }
 
   img {
-    height: 70vh;
+    height: 50vh;
 
     border-radius: 5px;
   }
@@ -26,4 +26,10 @@
       color: #888;
     }
   }
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 }
