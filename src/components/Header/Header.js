@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 import "./Header.scss";
 
-const Header = () => {
+const Header = ({ setSearchQuery }) => {
   const [search, setSearch] = useState("");
 
-
-  const HandleChange = (e) => {
-    // console.log(e.target.value);
-    setSearch(e.target.value);
+  const handleChange = (e) => {
+    const query = e.target.value;
+    setSearch(query);
+    setSearchQuery(query);
   };
 
   return (
@@ -18,7 +18,7 @@ const Header = () => {
         <div className="input-container">
           <input
             value={search}
-            onChange={HandleChange}
+            onChange={handleChange}
             type="text"
             placeholder="Search Song, Artist"
           />

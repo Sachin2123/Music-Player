@@ -10,21 +10,18 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   const [currentSong, setCurrentSong] = useState(null);
-
+  const [searchQuery, setSearchQuery] = useState("");
   return (
     <div className="app">
       <BrowserRouter>
-        {/* Use Routes instead of Router in React Router v6 */}
         <Routes>
           <Route exact path="/Favourites" element={<Favourites />} />
-          {/* Define other routes if necessary */}
         </Routes>
 
-        {/* Sidebar and other components */}
         <Sidebar />
         <div className="content">
-          <Header />
-          <SongList setCurrentSong={setCurrentSong} />
+          <Header setSearchQuery={setSearchQuery} />
+          <SongList setCurrentSong={setCurrentSong} searchQuery={searchQuery} />
         </div>
         <Player currentSong={currentSong} />
       </BrowserRouter>

@@ -116,7 +116,7 @@ const Player = ({ currentSong }) => {
           <div className="player-info">
             <div className="details">
               <h4>{currentSong.title}</h4>
-              <p style={{ color: "black" }}>{currentSong.artist}</p>
+              <p style={{ color: "grey" }}>{currentSong.artist}</p>
             </div>
             <img
               style={{ marginTop: "40px" }}
