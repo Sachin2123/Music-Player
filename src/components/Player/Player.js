@@ -1,4 +1,12 @@
 import React from "react";
+import {
+  FastForwardIcon,
+  FastRewindIcon,
+  PlayCircleRoundedIcon,
+  PauseCircleOutlineRoundedIcon,
+  FavoriteBorderRoundedIcon,
+} from "@mui/icons-material";
+
 import "./Player.scss";
 
 const Player = ({ currentSong }) => {
@@ -6,10 +14,17 @@ const Player = ({ currentSong }) => {
     <div className="player">
       {currentSong ? (
         <>
-          <img src={currentSong.cover} alt={currentSong.title} />
-          <div className="details">
-            <h4>{currentSong.title}</h4>
-            <p>{currentSong.artist}</p>
+          <div className="player-info">
+            <div className="details">
+              <h4>{currentSong.title}</h4>
+              <p>{currentSong.artist}</p>
+            </div>
+            <img
+              style={{ marginTop: "40px" }}
+              className="SongCoverImage"
+              src={currentSong.cover}
+              alt={currentSong.title}
+            />
           </div>
         </>
       ) : (

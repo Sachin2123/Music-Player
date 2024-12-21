@@ -1,19 +1,24 @@
 .player {
   background: #121212;
-  padding: 20rem;
+  padding: 10rem;
   display: flex;
   align-items: center;
 
+  .player-info {
+    display: flex;
+    flex-direction: column;
+  }
+
   img {
-    width: 60px;
-    height: 60px;
+    height: 70vh;
+
     border-radius: 5px;
-    margin-right: 10px;
   }
 
   .details {
     h4 {
       margin: 0;
+      font-size: 30px;
     }
 
     p {
