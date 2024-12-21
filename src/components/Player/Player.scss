@@ -1,0 +1,24 @@
+.player {
+  background: #121212;
+  padding: 20rem;
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  .details {
+    h4 {
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+      color: #888;
+    }
+  }
+}

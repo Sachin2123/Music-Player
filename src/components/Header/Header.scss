@@ -1,0 +1,35 @@
+.header {
+  background: #121212;
+  padding: 15px;
+  margin-top: 5px;
+
+  .input-container {
+    position: relative;
+    width: 90%; /* You can adjust the width */
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 30px 10px 10px; /* Padding to leave space for the icon */
+    border: none;
+    border-radius: 5px;
+    background: #333;
+    color: white;
+    font-size: 14px;
+  }
+
+  .search-icon {
+    position: absolute;
+    right: -28px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ccc;
+  }
+}
+
+.title {
+  font-size: 24px;
+  padding: 19px 0px 0px 16px;
+  font-weight: 700;
+  margin-top: 16px;
+}
