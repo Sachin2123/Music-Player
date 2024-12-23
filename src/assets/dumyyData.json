@@ -8,7 +8,8 @@
     "category": "Pop",
     "genre": "Pop",
     "singerName": "Ed Sheeran",
-    "bollywoodSong": false
+    "bollywoodSong": false,
+    "url": ""
   },
   {
     "id": 2,
@@ -19,7 +20,8 @@
     "category": "Pop",
     "genre": "Synthwave",
     "singerName": "The Weeknd",
-    "bollywoodSong": false
+    "bollywoodSong": false,
+    "url": ""
   },
   {
     "id": 3,
@@ -30,7 +32,8 @@
     "category": "Pop",
     "genre": "Pop",
     "singerName": "Dua Lipa",
-    "bollywoodSong": false
+    "bollywoodSong": false,
+    "url": ""
   },
   {
     "id": 4,
@@ -41,7 +44,8 @@
     "category": "Bollywood",
     "genre": "Romantic",
     "singerName": "Arijit Singh",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": "../../assets/songs/kesariya.mp3"
   },
   {
     "id": 5,
@@ -52,7 +56,8 @@
     "category": "Bollywood",
     "genre": "Romantic",
     "singerName": "Atif Aslam",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": "../../assets/songs/dildiyangallan.mp3"
   },
 
   {
@@ -64,7 +69,8 @@
     "category": "Bollywood",
     "genre": "Dance",
     "singerName": "Sukhwinder Singh, Sapna Awasthi",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": ""
   },
   {
     "id": 8,
@@ -75,7 +81,8 @@
     "category": "Bollywood",
     "genre": "Romantic",
     "singerName": "Arijit Singh",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": ""
   },
   {
     "id": 9,
@@ -86,7 +93,8 @@
     "category": "Bollywood",
     "genre": "Romantic",
     "singerName": "Ayushmann Khurrana",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": ""
   },
   {
     "id": 10,
@@ -97,7 +105,8 @@
     "category": "Bollywood",
     "genre": "Romantic",
     "singerName": "A R Rahman",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": ""
   },
   {
     "id": 11,
@@ -108,7 +117,8 @@
     "category": "Pop",
     "genre": "Pop",
     "singerName": "Ed Sheeran",
-    "bollywoodSong": false
+    "bollywoodSong": false,
+    "url": ""
   },
   {
     "id": 12,
@@ -119,7 +129,8 @@
     "category": "Bollywood",
     "genre": "Romantic",
     "singerName": "Arijit Singh, Harshdeep Kaur",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": ""
   },
   {
     "id": 13,
@@ -130,7 +141,8 @@
     "category": "Bollywood",
     "genre": "Romantic",
     "singerName": "Jubin Nautiyal, Asees Kaur",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": ""
   },
   {
     "id": 14,
@@ -141,7 +153,8 @@
     "category": "Bollywood",
     "genre": "Dance",
     "singerName": "Benny Dayal, Shefali Alvaris",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": ""
   },
   {
     "id": 15,
@@ -152,7 +165,8 @@
     "category": "Bollywood",
     "genre": "Romantic",
     "singerName": "Arijit Singh, Harshdeep Kaur",
-    "bollywoodSong": true
+    "bollywoodSong": true,
+    "url": ""
   },
   {
     "id": 6,
@@ -163,6 +177,7 @@
     "category": "Pop",
     "genre": "Synthwave",
     "singerName": "The Weeknd",
-    "bollywoodSong": false
+    "bollywoodSong": false,
+    "url": ""
   }
 ]

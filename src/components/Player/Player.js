@@ -12,26 +12,18 @@ import Slider from "@mui/material/Slider";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Popover, OverlayTrigger } from "react-bootstrap";
 import "./Player.scss";
+import kesariya from "../../assets/songs/kesariya.mp3";
 
 const Player = ({ currentSong }) => {
   const [click, setClick] = useState(PlayCircleIcon);
-  const [position, setPosition] = useState(false);
+  const [position, setPosition] = useState(0);
   const [bgColor, setBgColor] = useState(""); // Default color
   const [isFavorite, setIsFavorite] = useState(false);
   const [favpopoverVisible, setFavPopoverVisible] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null); // Reference to the audio element
+  const [volume, setVolume] = useState(1); // Default volume is 100%
 
-  const audioRef = useRef(null);
-
-  useEffect(() => {
-    if (currentSong && audioRef.current) {
-      // Check if the audio element is ready and play the song
-      audioRef.current.src = currentSong.audio; // Set the audio source
-      audioRef.current.play().catch((error) => {
-        // Handle any errors (like if autoplay is blocked in the browser)
-        console.log("Error playing audio:", error);
-      });
-    }
-  }, [currentSong]);
   const handleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
@@ -48,7 +40,7 @@ const Player = ({ currentSong }) => {
         const colorThief = new ColorThief();
         const [r, g, b] = colorThief.getColor(img); // Get dominant color
 
-        console.log("Dominant Color:", r, g, b); // Log the dominant color for debugging
+        // console.log("Dominant Color:", r, g, b); // Log the dominant color for debugging
 
         // Generate a gradient based on the dominant color
         const generateGradient = (r, g, b) => {
@@ -73,7 +65,7 @@ const Player = ({ currentSong }) => {
         };
 
         const gradientColor = generateGradient(r, g, b);
-        console.log("Generated Gradient:", gradientColor); // Log the gradient for debugging
+        // console.log("Generated Gradient:", gradientColor); // Log the gradient for debugging
         setBgColor(gradientColor); // Set the gradient background
       } catch (error) {
         console.error("Error generating gradient:", error);
@@ -85,9 +77,45 @@ const Player = ({ currentSong }) => {
     };
   }, [currentSong?.cover]);
 
-  const handlePlayPause = (event) => {
-    console.log("clicked");
+  const handlePlayPause = (data) => {
     setClick(!click);
+    setIsPlaying(!isPlaying);
+    if (!audioRef.current) {
+      audioRef.current = new Audio(kesariya);
+      audioRef.current.volume = volume; // Set initial volume
+    }
+
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+  };
+
+  // Update song progress based on audio current time
+  useEffect(() => {
+    const updatePosition = () => {
+      if (audioRef.current) {
+        setPosition(audioRef.current.currentTime);
+      }
+    };
+
+    if (audioRef.current) {
+      audioRef.current.addEventListener("timeupdate", updatePosition);
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("timeupdate", updatePosition);
+      }
+    };
+  }, []);
+
+  const handleVolumeChange = (event, newVolume) => {
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
+    }
   };
 
   const popover = (
@@ -135,47 +163,20 @@ const Player = ({ currentSong }) => {
               src={currentSong.cover}
               alt={currentSong.title}
             />
-            <audioref ref={audioRef} controls />
 
             {/* Popover Button with Circle Ellipsis */}
 
             <Slider
-              aria-label="time-indicator"
+              value={position}
               size="small"
-              // value={position}
               min={0}
-              step={1}
-              // max={currentSong.duration}
+              max={audioRef.current?.duration || 1}
               onChange={(_, value) => setPosition(value)}
-              sx={(t) => ({
+              sx={{
                 marginTop: "10px",
                 color: "white",
                 height: 4,
-                "& .MuiSlider-thumb": {
-                  width: 8,
-                  height: 8,
-                  transition: "0.3s cubic-bezier(.47,1.64,.41,.8)",
-                  "&::before": {
-                    boxShadow: "0 2px 12px 0 rgba(0,0,0,0.4)",
-                  },
-                  "&:hover, &.Mui-focusVisible": {
-                    boxShadow: `0px 0px 0px 8px ${"rgb(0 0 0 / 16%)"}`,
-                    ...t.applyStyles("dark", {
-                      boxShadow: `0px 0px 0px 8px ${"rgb(255 255 255 / 16%)"}`,
-                    }),
-                  },
-                  "&.Mui-active": {
-                    width: 20,
-                    height: 20,
-                  },
-                },
-                "& .MuiSlider-rail": {
-                  opacity: 0.28,
-                },
-                ...t.applyStyles("dark", {
-                  color: "#fff",
-                }),
-              })}
+              }}
             />
 
             <div className="controls">
@@ -196,12 +197,18 @@ const Player = ({ currentSong }) => {
                   <FastRewindIcon sx={{ color: "grey", fontSize: "30px" }} />
                 </Button>
 
-                {!click ? (
-                  <Button onClick={handlePlayPause} style={{ color: "white" }}>
+                {click ? (
+                  <Button
+                    onClick={() => handlePlayPause(currentSong)}
+                    style={{ color: "white" }}
+                  >
                     <PlayCircleIcon sx={{ color: "white", fontSize: "40px" }} />
                   </Button>
                 ) : (
-                  <Button onClick={handlePlayPause} style={{ color: "white" }}>
+                  <Button
+                    onClick={() => handlePlayPause(currentSong)}
+                    style={{ color: "white" }}
+                  >
                     <PauseCircleIcon
                       sx={{ color: "white", fontSize: "40px" }}
                     />
@@ -217,6 +224,21 @@ const Player = ({ currentSong }) => {
                 <Volume2 color="white" backgroundColor="#36454F" />
               </Button>
             </div>
+
+            <Slider
+              value={volume}
+              onChange={handleVolumeChange}
+              aria-label="volume"
+              size="small"
+              min={0}
+              max={1}
+              step={0.01}
+              sx={{
+                color: "white",
+                height: 4,
+                marginTop: "10px",
+              }}
+            />
           </div>
         </>
       ) : (
