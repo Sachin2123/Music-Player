@@ -1,0 +1,15 @@
+.favourites-sidebar {
+  background: #121212;
+  width: 240px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+
+  .linkFav {
+    flex-direction: column;
+    display: flex;
+    gap: 10px;
+    list-style: none !important;
+  }
+}
