@@ -23,7 +23,7 @@ const Player = ({ currentSong }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null); // Reference to the audio element
   const [volume, setVolume] = useState(1); // Default volume is 100%
-
+  const [volumBtnClicked, SetvolumBtnClicked] = useState(false);
   const handleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
@@ -92,24 +92,12 @@ const Player = ({ currentSong }) => {
     }
   };
 
-  // Update song progress based on audio current time
-  useEffect(() => {
-    const updatePosition = () => {
-      if (audioRef.current) {
-        setPosition(audioRef.current.currentTime);
-      }
-    };
-
-    if (audioRef.current) {
-      audioRef.current.addEventListener("timeupdate", updatePosition);
-    }
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener("timeupdate", updatePosition);
-      }
-    };
-  }, []);
+  const handleplayerProgress = (event) => {
+    console.log(event.target);
+    // const { duration, currentTime } = event.target;
+    // const progress = (currentTime / duration) * 100;
+    // setPosition(progress);
+  };
 
   const handleVolumeChange = (event, newVolume) => {
     setVolume(newVolume);
@@ -148,6 +136,29 @@ const Player = ({ currentSong }) => {
     </Popover>
   );
 
+  const VolumbeBtnClicked = () => {
+    console.log(!volumBtnClicked);
+    SetvolumBtnClicked(!volumBtnClicked);
+
+    return (
+      <div>
+        <Slider
+          size="small"
+          step={0.01}
+          min={0}
+          max={1}
+          value={volume}
+          onChange={handleVolumeChange}
+          sx={{
+            marginTop: "10px",
+            color: "white",
+            height: 4,
+          }}
+        />
+      </div>
+    );
+  };
+
   return (
     <div className="player" style={{ backgroundColor: bgColor }}>
       {currentSong ? (
@@ -167,11 +178,12 @@ const Player = ({ currentSong }) => {
             {/* Popover Button with Circle Ellipsis */}
 
             <Slider
-              value={position}
+              // value={position}
               size="small"
+              step={0.01}
               min={0}
-              max={audioRef.current?.duration || 1}
-              onChange={(_, value) => setPosition(value)}
+              max={60}
+              onChange={handleplayerProgress}
               sx={{
                 marginTop: "10px",
                 color: "white",
@@ -220,25 +232,28 @@ const Player = ({ currentSong }) => {
                 </Button>
               </div>
 
-              <Button style={{ color: "white" }}>
+              <Button style={{ color: "white" }} onClick={VolumbeBtnClicked}>
                 <Volume2 color="white" backgroundColor="#36454F" />
               </Button>
             </div>
-
-            <Slider
-              value={volume}
-              onChange={handleVolumeChange}
-              aria-label="volume"
-              size="small"
-              min={0}
-              max={1}
-              step={0.01}
-              sx={{
-                color: "white",
-                height: 4,
-                marginTop: "10px",
-              }}
-            />
+            {volumBtnClicked ? (
+              <Slider
+                value={volume}
+                onChange={handleVolumeChange}
+                aria-label="volume"
+                size="small"
+                min={0}
+                max={1}
+                step={0.01}
+                sx={{
+                  color: "white",
+                  height: 4,
+                  marginTop: "10px",
+                }}
+              />
+            ) : (
+              ""
+            )}
           </div>
         </>
       ) : (
